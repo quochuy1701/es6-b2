@@ -11,7 +11,7 @@ let dataGlasses = [
 ];
 const loadGlasses = () => {
     let content = dataGlasses.map((glasses) => {
-        return ` <div class=col-4 onclick="setGlasses('${glasses}')">
+        return ` <div class=col-4 onclick="setGlasses('${glasses.id}')">
             <img src="${glasses.src}" style="width:100%">
         </div>`
 
@@ -19,22 +19,31 @@ const loadGlasses = () => {
     document.getElementById("vglassesList").innerHTML = content.join("");
 }
 loadGlasses();
-const setGlasses = (glasses) => {
-    let { virtualImg, brand, name, color, price, description } = glasses;
+const setGlasses = (id) => {
+    let viTri= timVitri(id);
+    let glasses ={};
+    if( viTri > -1){
+        glasses = dataGlasses[viTri];
+        // console.log(glasses);
+    }
     let content = `
         <div>
-            <img src="${virtualImg}">
+            <img src="${glasses.virtualImg}">
         </div>
     `
     let content1 = ` 
-        <div class="row">
-            <div class="col-12>${name} - ${brand}(${color})</div>
-            <div class="col-12>${price}</div>
-            <div class="col-12>${description}</div>
+            <div class="text" style="color:#fff">${glasses.name} - ${glasses.brand}(${glasses.color})</div>
+            <div class="text"  style="background-color:red;width:8%; margin:10px 0">${glasses.price}</div>
+            <div class="text">${glasses.description}</div>
         </div>
     `
     document.getElementById("glassesInfo").innerHTML = content1;
     document.getElementById("avatar").innerHTML = content;
 }
 window.setGlasses = setGlasses;
+const timVitri = (id) => {
+    return dataGlasses.findIndex(function (glasses) {
+    return glasses.id == id;
+    })
+}
 
